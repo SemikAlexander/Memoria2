@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val pref = getSharedPreferences("setting", Context.MODE_PRIVATE)
-        if (pref.getString("mode", null).toString() == "night") {
+        val pref = getSharedPreferences(PrefsKeys.SETTING, Context.MODE_PRIVATE)
+        if (pref.getString(PrefsKeys.MODE, null).toString() == "night") {
             appModeTheme = "night"
             setTheme(R.style.Theme_Memoria2Night)
         }
@@ -32,13 +32,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
-            if (appModeTheme == "day")
-                appMode.setImageResource(R.drawable.moon)
-            else
-                appMode.setImageResource(R.drawable.sun)
+            appMode.setImageResource(if (appModeTheme == "day") R.drawable.moon else R.drawable.sun)
 
-            level = pref.getString("level", null).toString()
-            userTopic = pref.getString("topic", null).toString()
+            level = pref.getString(PrefsKeys.LEVEL, null).toString()
+            userTopic = pref.getString(PrefsKeys.TOPIC, null).toString()
         }
     }
 
@@ -46,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val pref = getSharedPreferences("setting", Context.MODE_PRIVATE)
+        val pref = getSharedPreferences(PrefsKeys.SETTING, Context.MODE_PRIVATE)
         val editor = pref.edit()
 
         setLevel(level = level)
@@ -56,43 +53,61 @@ class MainActivity : AppCompatActivity() {
             startGame.setOnClickListener {
                 startActivity<GameActivity> {
                     putExtra("difficult", level)
-                    putExtra("topic", userTopic)
+                    putExtra(PrefsKeys.TOPIC, userTopic)
                 }
             }
 
             easyButton.setOnClickListener{
                 level = easyButton.tag.toString()
-                editor.putString("level", level)
+
+                editor.putString(PrefsKeys.LEVEL, level)
+                editor.apply()
+
                 setLevel(level)
             }
 
             football.setOnClickListener{
                 userTopic = football.tag.toString()
-                editor.putString("topic", userTopic)
+
+                editor.putString(PrefsKeys.TOPIC, userTopic)
+                editor.apply()
+
                 setTopic(userTopic)
             }
 
             mediumButton.setOnClickListener{
                 level = mediumButton.tag.toString()
-                editor.putString("level", level)
+
+                editor.putString(PrefsKeys.LEVEL, level)
+                editor.apply()
+
                 setLevel(level)
             }
 
             race.setOnClickListener{
                 userTopic = race.tag.toString()
-                editor.putString("topic", userTopic)
+
+                editor.putString(PrefsKeys.TOPIC, userTopic)
+                editor.apply()
+
                 setTopic(userTopic)
             }
 
             hardButton.setOnClickListener{
                 level = hardButton.tag.toString()
-                editor.putString("level", level)
+
+                editor.putString(PrefsKeys.LEVEL, level)
+                editor.apply()
+
                 setLevel(level)
             }
 
             animals.setOnClickListener{
                 userTopic = animals.tag.toString()
-                editor.putString("topic", userTopic)
+
+                editor.putString(PrefsKeys.TOPIC, userTopic)
+                editor.apply()
+
                 setTopic(userTopic)
             }
 
@@ -101,13 +116,13 @@ class MainActivity : AppCompatActivity() {
                     appMode.setImageResource(R.drawable.moon)
 
                     appModeTheme = "night"
-                    editor.putString("mode", "night")
+                    editor.putString(PrefsKeys.MODE, "night")
                 }
                 else {
                     appMode.setImageResource(R.drawable.sun)
 
                     appModeTheme = "day"
-                    editor.putString("mode", "day")
+                    editor.putString(PrefsKeys.MODE, "day")
                 }
 
                 editor.apply()

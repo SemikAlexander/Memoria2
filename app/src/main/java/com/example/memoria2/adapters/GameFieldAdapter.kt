@@ -1,5 +1,6 @@
 package com.example.memoria2.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.memoria2.R
 
 
-class GameFieldAdapter(private val values: Array<String>,
-                       private val listener: OnItemClickListener) :
-        RecyclerView.Adapter<GameFieldAdapter.GameViewHolder>() {
+class GameFieldAdapter(
+        private val values: Array<String>,
+        private val onItemClick: (Int) -> Unit
+) : RecyclerView.Adapter<GameFieldAdapter.GameViewHolder>() {
 
     override fun getItemCount() = values.size
 
@@ -20,26 +22,24 @@ class GameFieldAdapter(private val values: Array<String>,
     }
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
-        holder.myTextView.text = values[position]
+        holder.bind(values[position])
     }
 
-    inner class GameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-            View.OnClickListener {
+    inner class GameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var myTextView: TextView = itemView.findViewById(R.id.info_text)
 
-        init {
-            itemView.setOnClickListener(this)
-        }
+         //todo use binding
 
-        override fun onClick(v: View?) {
-            val position = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position)
+        @SuppressLint("SetTextI18n")
+        fun bind(item: String) {
+            myTextView.text = item
+            itemView.setOnClickListener {
+                myTextView.text = "#$adapterPosition"
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClick.invoke(position)
+                }
             }
         }
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
     }
 }

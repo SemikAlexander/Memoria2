@@ -9,7 +9,7 @@ import com.example.memoria2.adapters.GameFieldAdapter
 import com.example.memoria2.databinding.ActivityGameBinding
 
 
-class GameActivity : AppCompatActivity(), GameFieldAdapter.OnItemClickListener {
+class GameActivity : AppCompatActivity() {
     lateinit var binding: ActivityGameBinding
 
     private var size = -1
@@ -17,8 +17,8 @@ class GameActivity : AppCompatActivity(), GameFieldAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val pref = getSharedPreferences("setting", Context.MODE_PRIVATE)
-        if (pref.getString("mode", null).toString() == "night")
+        val pref = getSharedPreferences(PrefsKeys.SETTING, Context.MODE_PRIVATE)
+        if (pref.getString(PrefsKeys.MODE, null).toString() == "night")
             setTheme(R.style.Theme_Memoria2Night)
         else
             setTheme(R.style.Theme_Memoria2)
@@ -31,13 +31,13 @@ class GameActivity : AppCompatActivity(), GameFieldAdapter.OnItemClickListener {
         super.onStart()
 
         binding.apply {
-            when (intent.getStringExtra("difficult")) {
-                "easy" -> size = 4
-                "medium" -> size = 6
-                "hard" -> size = 8
+            size = when (intent.getStringExtra("difficult")) {
+                "easy" -> 4
+                "medium" -> 6
+                else -> 8
             }
 
-            val topicGame = intent.getStringExtra("topic").toString()
+            val topicGame = intent.getStringExtra("topic") ?: ""
 
             chronometer.base = SystemClock.elapsedRealtime()
             chronometer.start()
@@ -47,12 +47,12 @@ class GameActivity : AppCompatActivity(), GameFieldAdapter.OnItemClickListener {
             for (i in 0 until (size * size))
                 data.add("?")
 
-            gameField.layoutManager = GridLayoutManager(this@GameActivity, size)
-            gameField.adapter = GameFieldAdapter(data.toTypedArray(), this@GameActivity)
-        }
-    }
+            gameField.apply {
+                layoutManager = GridLayoutManager(context, size)
+                adapter = GameFieldAdapter(data.toTypedArray()) {
 
-    override fun onItemClick(position: Int) {
-        toast("$position")
+                }
+            }
+        }
     }
 }

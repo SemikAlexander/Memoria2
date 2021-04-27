@@ -19,7 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="70dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        tools:listitem="@layout/recyclerview_item"
+        tools:itemCount="8"/>
 
     <RelativeLayout
         android:id="@+id/game_result"
