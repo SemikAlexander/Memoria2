@@ -11,8 +11,8 @@ import com.example.memoria2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-    private var level = "easy"
-    private var userTopic = "football"
+    private var level = ""
+    private var userTopic = ""
     private var appModeTheme = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
             else
                 appMode.setImageResource(R.drawable.sun)
 
-            setLevel(pref.getString("level", null).toString())
-            setTopic(pref.getString("topic", null).toString())
+            level = pref.getString("level", null).toString()
+            userTopic = pref.getString("topic", null).toString()
         }
     }
 
@@ -48,6 +48,9 @@ class MainActivity : AppCompatActivity() {
 
         val pref = getSharedPreferences("setting", Context.MODE_PRIVATE)
         val editor = pref.edit()
+
+        setLevel(level = level)
+        setTopic(userTopic = userTopic)
 
         binding.apply {
             startGame.setOnClickListener {

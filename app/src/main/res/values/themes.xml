@@ -3,7 +3,7 @@
     <style name="Theme.Memoria2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorPrimaryVariant">@color/day_theme_background</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/day_theme_rounding_color</item>
         <item name="colorSecondaryVariant">@color/day_theme_selected_rounding_color</item>
@@ -17,7 +17,7 @@
     <style name="Theme.Memoria2Night" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorPrimaryVariant">@color/night_theme_background</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/night_theme_rounding_color</item>
         <item name="colorSecondaryVariant">@color/night_theme_selected_rounding_color</item>
