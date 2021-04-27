@@ -42,10 +42,9 @@ class GameActivity : AppCompatActivity() {
             chronometer.base = SystemClock.elapsedRealtime()
             chronometer.start()
 
-            val data = mutableListOf<String>()
+            val gameProcess = GameProcess(this@GameActivity, size, size, topicGame)
 
-            for (i in 0 until (size * size))
-                data.add("?")
+            val data = gameProcess.createGameField()
 
             gameField.apply {
                 layoutManager = GridLayoutManager(context, size)
