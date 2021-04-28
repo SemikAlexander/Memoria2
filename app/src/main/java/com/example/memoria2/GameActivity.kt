@@ -3,6 +3,7 @@ package com.example.memoria2
 import android.content.Context
 import android.os.Bundle
 import android.os.SystemClock
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.memoria2.adapters.GameFieldAdapter
@@ -44,12 +45,18 @@ class GameActivity : AppCompatActivity() {
 
             val gameProcess = GameProcess(this@GameActivity, size, size, topicGame)
 
-            val data = gameProcess.createGameField()
+            val gameFieldArray = gameProcess.createGameField()
+            var cardsStatus: ArrayList<GameProcess.Status> = ArrayList()
+
+            cardsStatus = gameProcess.closeCells(cardsStatus)
 
             gameField.apply {
                 layoutManager = GridLayoutManager(context, size)
-                adapter = GameFieldAdapter(data.toTypedArray()) {
-
+                adapter = GameFieldAdapter(gameFieldArray, cardsStatus, gameProcess) {
+                    if (gameProcess.isGameOver(cardsStatus)) {
+                        gameField.visibility = View.GONE
+                        gameResult.visibility = View.VISIBLE
+                    }
                 }
             }
         }

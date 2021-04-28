@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.memoria2.GameProcess
 import com.example.memoria2.R
 
 
 class GameFieldAdapter(
-        private val cardsArray: Array<String>,
+        private val cardsArray: ArrayList<String>,
+        private val cardsStatus: ArrayList<GameProcess.Status>,
+        private val gameProcess: GameProcess,
         private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<GameFieldAdapter.GameViewHolder>() {
 
@@ -39,6 +42,10 @@ class GameFieldAdapter(
         fun bind(item: String) {
             myTextView.text = item
             itemView.setOnClickListener {
+
+                gameProcess.checkOpenCells(cardsStatus, cardsArray)
+                gameProcess.openCell(cardsStatus, adapterPosition)
+
                 myTextView.text = cardsArray[adapterPosition]
 
                 val position = adapterPosition
