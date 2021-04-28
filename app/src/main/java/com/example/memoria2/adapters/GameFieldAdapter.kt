@@ -10,11 +10,11 @@ import com.example.memoria2.R
 
 
 class GameFieldAdapter(
-        private val values: Array<String>,
+        private val cardsArray: Array<String>,
         private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<GameFieldAdapter.GameViewHolder>() {
 
-    override fun getItemCount() = values.size
+    override fun getItemCount() = cardsArray.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item, parent, false)
@@ -22,7 +22,12 @@ class GameFieldAdapter(
     }
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
-        holder.bind(values[position])
+        val closeCardsArray = mutableListOf<String>()
+
+        for (i in 0..cardsArray.size)
+            closeCardsArray.add("?")
+
+        holder.bind(closeCardsArray[position])
     }
 
     inner class GameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -34,7 +39,8 @@ class GameFieldAdapter(
         fun bind(item: String) {
             myTextView.text = item
             itemView.setOnClickListener {
-                myTextView.text = "#$adapterPosition"
+                myTextView.text = cardsArray[adapterPosition]
+
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     onItemClick.invoke(position)

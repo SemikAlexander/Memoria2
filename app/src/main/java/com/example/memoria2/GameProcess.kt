@@ -13,7 +13,7 @@ class GameProcess (
     private val pictureCollection: String = topic
     private val gameResources: Resources = context.resources
 
-    private enum class Status {
+    enum class Status {
         OPEN, CLOSE, DELETE
     }
 
@@ -23,8 +23,8 @@ class GameProcess (
         pictureArray.clear()
 
         for (i in 0 until gameCols * gameRows / 2) {
-            pictureArray.add(pictureCollection + i.toString())
-            pictureArray.add(pictureCollection + i.toString())
+            pictureArray.add(/*pictureCollection + */i.toString())
+            pictureArray.add(/*pictureCollection + */i.toString())
         }
 
         pictureArray.shuffle()
@@ -32,17 +32,23 @@ class GameProcess (
         return pictureArray
     }
 
-    fun closeCells() {
+    fun closeCells(cardsStatus: ArrayList<Status>): ArrayList<Status> {
         cardsStatus.clear()
         for (i in 0 until gameCols * gameRows)
             cardsStatus.add(Status.CLOSE)
+
+        return cardsStatus
     }
 
-    fun checkOpenCells() {
+    fun checkOpenCells(
+            cardsStatus: ArrayList<Status>,
+            pictureArray:ArrayList<String>
+    ): ArrayList<Status> {
         if (cardsStatus.indexOf(Status.OPEN) > -1 && cardsStatus.lastIndexOf(Status.OPEN) > -1){
             val firstImage: Int = cardsStatus.indexOf(Status.OPEN)
             val secondImage: Int = cardsStatus.lastIndexOf(Status.OPEN)
-            if (firstImage == secondImage) return
+            if (firstImage == secondImage)
+                return cardsStatus
             if (pictureArray[firstImage] == pictureArray[secondImage]) {
                 cardsStatus[firstImage] = Status.DELETE
                 cardsStatus[secondImage] = Status.DELETE
@@ -51,15 +57,15 @@ class GameProcess (
                 cardsStatus[secondImage] = Status.CLOSE
             }
         }
-        return
+        return cardsStatus
     }
 
-    fun openCell(position: Int) {
+    fun openCell(cardsStatus: ArrayList<Status>, position: Int) {
         if (cardsStatus[position] !== Status.DELETE)
             cardsStatus[position] = Status.OPEN
         return
     }
 
-    fun isGameOver(): Boolean =
+    fun isGameOver(cardsStatus: ArrayList<Status>): Boolean =
             cardsStatus.indexOf(Status.CLOSE) < 0
 }
