@@ -3,6 +3,7 @@ package com.example.memoria2
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -26,3 +27,7 @@ fun Fragment.toast(message: String, duration: Int = Toast.LENGTH_SHORT) =
 
 fun Fragment.toast(@StringRes messageId: Int, duration: Int = Toast.LENGTH_SHORT) =
         Toast.makeText(activity, messageId, duration).show()
+
+fun View.visible(value: Boolean) {
+    visibility = if (value) View.VISIBLE else View.GONE
+}

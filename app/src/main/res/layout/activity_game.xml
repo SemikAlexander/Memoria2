@@ -35,8 +35,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/winner"
             android:scaleType="centerCrop"
-            android:layout_centerInParent="true"
-            android:visibility="visible"/>
+            android:layout_centerInParent="true"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

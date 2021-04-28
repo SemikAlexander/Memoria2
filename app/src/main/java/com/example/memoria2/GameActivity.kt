@@ -45,19 +45,27 @@ class GameActivity : AppCompatActivity() {
 
             val gameProcess = GameProcess(this@GameActivity, size, size, topicGame)
 
-            val gameFieldArray = gameProcess.createGameField()
-            var cardsStatus: ArrayList<GameProcess.Status> = ArrayList()
-
-            cardsStatus = gameProcess.closeCells(cardsStatus)
+            var gameFieldArray: ArrayList<CellGameField> = ArrayList()
+             gameFieldArray = gameProcess.createGameField(gameFieldArray)
 
             gameField.apply {
                 layoutManager = GridLayoutManager(context, size)
-                adapter = GameFieldAdapter(gameFieldArray, cardsStatus, gameProcess) {
-                    if (gameProcess.isGameOver(cardsStatus)) {
+                adapter = GameFieldAdapter(gameFieldArray, gameProcess) {
+                    if (gameProcess.isGameOver(gameFieldArray)) {
                         gameField.visibility = View.GONE
                         gameResult.visibility = View.VISIBLE
                     }
                 }
+            }
+
+            replayButton.setOnClickListener {
+                gameResult.visibility = View.GONE
+                recreate()
+            }
+
+            menuButton.setOnClickListener {
+                chronometer.stop()
+                finish()
             }
         }
     }

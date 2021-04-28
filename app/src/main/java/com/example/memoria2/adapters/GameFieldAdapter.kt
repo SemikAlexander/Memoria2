@@ -1,58 +1,69 @@
 package com.example.memoria2.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
+import com.example.memoria2.CellGameField
 import com.example.memoria2.GameProcess
-import com.example.memoria2.R
-
+import com.example.memoria2.databinding.RecyclerviewItemBinding
+import com.example.memoria2.visible
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class GameFieldAdapter(
-        private val cardsArray: ArrayList<String>,
-        private val cardsStatus: ArrayList<GameProcess.Status>,
+        private var cells: ArrayList<CellGameField>,
         private val gameProcess: GameProcess,
         private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<GameFieldAdapter.GameViewHolder>() {
 
-    override fun getItemCount() = cardsArray.size
+    override fun getItemCount() = cells.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item, parent, false)
-        return GameViewHolder(itemView)
+        val inflater = LayoutInflater.from(parent.context)
+        return GameViewHolder(RecyclerviewItemBinding.inflate(inflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
-        val closeCardsArray = mutableListOf<String>()
-
-        for (i in 0..cardsArray.size)
-            closeCardsArray.add("?")
-
-        holder.bind(closeCardsArray[position])
+        holder.bind(cells[position])
     }
 
-    inner class GameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var myTextView: TextView = itemView.findViewById(R.id.info_text)
+    inner class GameViewHolder(
+            private val binding: RecyclerviewItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-         //todo use binding
+        fun bind(item: CellGameField) = binding.run {
 
-        @SuppressLint("SetTextI18n")
-        fun bind(item: String) {
-            myTextView.text = item
+            itemView.visible(item.isVisible())
+            infoText.text = item.getTitle()
+
             itemView.setOnClickListener {
 
-                gameProcess.checkOpenCells(cardsStatus, cardsArray)
-                gameProcess.openCell(cardsStatus, adapterPosition)
+                if (adapterPosition != RecyclerView.NO_POSITION)
+                    onItemClick.invoke(adapterPosition)
 
-                myTextView.text = cardsArray[adapterPosition]
+                if (item.status == GameProcess.Status.CLOSE) {
+                    cells[adapterPosition].status = GameProcess.Status.OPEN
+                    notifyItemChanged(adapterPosition)
 
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    onItemClick.invoke(position)
+                    val openCount = cells
+                            .filter { it.status == GameProcess.Status.OPEN }
+                            .size
+
+                    if (openCount < 2) return@setOnClickListener
+
+                    GlobalScope.launch {
+                        delay(1000)
+                        launch(Dispatchers.Main) {
+                            cells = gameProcess.isCardsEqual(cells)
+                            notifyDataSetChanged()
+                        }
+                    }
                 }
             }
         }
     }
+
 }

@@ -1,7 +1,6 @@
 package com.example.memoria2
 
 import android.content.Context
-import android.content.res.Resources
 
 class GameProcess (
         private val context: Context,
@@ -9,63 +8,62 @@ class GameProcess (
         private val gameRows: Int,
         topic: String
 ) {
-    private val pictureArray: ArrayList<String> = ArrayList()
-    private val pictureCollection: String = topic
-    private val gameResources: Resources = context.resources
-
     enum class Status {
         OPEN, CLOSE, DELETE
     }
 
-    private val cardsStatus: ArrayList<Status> = ArrayList()
+    fun createGameField(gameArray: ArrayList<CellGameField>): ArrayList<CellGameField> {
+        gameArray.clear()
 
-    fun createGameField(): ArrayList<String> {
-        pictureArray.clear()
-
-        for (i in 0 until gameCols * gameRows / 2) {
-            pictureArray.add(/*pictureCollection + */i.toString())
-            pictureArray.add(/*pictureCollection + */i.toString())
+        for (i in 0 until (gameCols * gameRows / 2)) {
+            val item = CellGameField(i, Status.CLOSE)
+            gameArray.add(item)
         }
 
-        pictureArray.shuffle()
+        for (i in 0 until (gameCols * gameRows / 2)) {
+            val item = CellGameField(i, Status.CLOSE)
+            gameArray.add(item)
+        }
 
-        return pictureArray
+        gameArray.shuffle()
+
+        return gameArray
     }
 
-    fun closeCells(cardsStatus: ArrayList<Status>): ArrayList<Status> {
-        cardsStatus.clear()
-        for (i in 0 until gameCols * gameRows)
-            cardsStatus.add(Status.CLOSE)
+    fun closeCells(CellGameField: ArrayList<CellGameField>): ArrayList<CellGameField> {
+        for (i in 0 until CellGameField.size)
+            CellGameField[i].status = Status.CLOSE
 
-        return cardsStatus
+        return CellGameField
     }
 
-    fun checkOpenCells(
-            cardsStatus: ArrayList<Status>,
-            pictureArray:ArrayList<String>
-    ): ArrayList<Status> {
-        if (cardsStatus.indexOf(Status.OPEN) > -1 && cardsStatus.lastIndexOf(Status.OPEN) > -1){
-            val firstImage: Int = cardsStatus.indexOf(Status.OPEN)
-            val secondImage: Int = cardsStatus.lastIndexOf(Status.OPEN)
+    //
+    fun isCardsEqual(CellGameField: ArrayList<CellGameField>): ArrayList<CellGameField> {
+        if (CellGameField.indexOfFirst { it.status == Status.OPEN } > -1
+                && CellGameField.indexOfLast { it.status == Status.OPEN } > -1)
+        {
+            val firstImage: Int = CellGameField.indexOfFirst { it.status == Status.OPEN }
+            val secondImage: Int = CellGameField.indexOfLast { it.status == Status.OPEN }
             if (firstImage == secondImage)
-                return cardsStatus
-            if (pictureArray[firstImage] == pictureArray[secondImage]) {
-                cardsStatus[firstImage] = Status.DELETE
-                cardsStatus[secondImage] = Status.DELETE
+                return CellGameField
+            if (CellGameField[firstImage].getTitle() == CellGameField[secondImage].getTitle()) {
+                CellGameField[firstImage].status = Status.DELETE
+                CellGameField[secondImage].status = Status.DELETE
+                return CellGameField
             } else {
-                cardsStatus[firstImage] = Status.CLOSE
-                cardsStatus[secondImage] = Status.CLOSE
+                CellGameField[firstImage].status = Status.CLOSE
+                CellGameField[secondImage].status = Status.CLOSE
             }
         }
-        return cardsStatus
+        return CellGameField
     }
 
-    fun openCell(cardsStatus: ArrayList<Status>, position: Int) {
-        if (cardsStatus[position] !== Status.DELETE)
-            cardsStatus[position] = Status.OPEN
-        return
+    fun openCell(CellGameField: ArrayList<CellGameField>, position: Int): ArrayList<CellGameField> {
+        if (CellGameField[position].status !== Status.DELETE)
+            CellGameField[position].status = Status.OPEN
+        return CellGameField
     }
 
-    fun isGameOver(cardsStatus: ArrayList<Status>): Boolean =
-            cardsStatus.indexOf(Status.CLOSE) < 0
+    fun isGameOver(CellGameField: ArrayList<CellGameField>): Boolean =
+            CellGameField.indexOfFirst { it.status == Status.CLOSE } < 0
 }
