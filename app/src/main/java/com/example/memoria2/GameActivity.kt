@@ -10,6 +10,7 @@ import com.example.memoria2.adapters.GameFieldAdapter
 import com.example.memoria2.databinding.ActivityGameBinding
 import com.example.memoria2.game.CellGameField
 import com.example.memoria2.game.GameProcess
+import com.example.memoria2.game.toast
 
 
 class GameActivity : AppCompatActivity() {
@@ -48,16 +49,23 @@ class GameActivity : AppCompatActivity() {
             val gameProcess = GameProcess(this@GameActivity, size, size, topicGame)
 
             var gameFieldArray: ArrayList<CellGameField> = ArrayList()
-             gameFieldArray = gameProcess.createGameField(gameFieldArray)
+            gameFieldArray = gameProcess.createGameField(gameFieldArray)
 
             gameField.apply {
                 layoutManager = GridLayoutManager(context, size)
-                adapter = GameFieldAdapter(gameFieldArray, gameProcess) {
-                    if (gameProcess.isGameOver) {
-                        gameField.visibility = View.GONE
-                        gameResult.visibility = View.VISIBLE
-                    }
-                }
+                adapter = GameFieldAdapter(
+                        gameFieldArray,
+                        gameProcess,
+                        onGameOver = {
+                            gameField.visibility = View.GONE
+                            gameResult.visibility = View.VISIBLE
+                        },
+                        onItemClick = {
+                            if (gameProcess.isGameOver) {
+                                gameField.visibility = View.GONE
+                                gameResult.visibility = View.VISIBLE
+                            }
+                        })
             }
 
             replayButton.setOnClickListener {

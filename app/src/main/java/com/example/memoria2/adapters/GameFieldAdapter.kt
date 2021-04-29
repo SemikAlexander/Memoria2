@@ -18,7 +18,8 @@ import kotlin.math.sqrt
 class GameFieldAdapter(
         private var cells: ArrayList<CellGameField>,
         private val gameProcess: GameProcess,
-        private val onItemClick: (Int) -> Unit
+        private val onItemClick: (Int) -> Unit,
+        private val onGameOver: () -> Unit
 ) : RecyclerView.Adapter<GameFieldAdapter.GameViewHolder>() {
 
     override fun getItemCount() = cells.size
@@ -69,7 +70,8 @@ class GameFieldAdapter(
                         delay(1000)
                         launch(Dispatchers.Main) {
                             cells = gameProcess.checkOpenCells(cells)
-                            gameProcess.isGameOver(cells)
+                            if (gameProcess.isGameOver(cells))
+                                onGameOver.invoke()
                             notifyDataSetChanged()
                         }
                     }
