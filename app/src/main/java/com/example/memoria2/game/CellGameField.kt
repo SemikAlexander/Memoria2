@@ -1,4 +1,4 @@
-package com.example.memoria2
+package com.example.memoria2.game
 
 data class CellGameField (
         var number: Int,

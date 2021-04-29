@@ -1,17 +1,19 @@
 package com.example.memoria2.adapters
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
-import com.example.memoria2.CellGameField
-import com.example.memoria2.GameProcess
+import com.example.memoria2.game.CellGameField
+import com.example.memoria2.game.GameProcess
 import com.example.memoria2.databinding.RecyclerviewItemBinding
-import com.example.memoria2.visible
+import com.example.memoria2.game.visible
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.math.sqrt
+
 
 class GameFieldAdapter(
         private var cells: ArrayList<CellGameField>,
@@ -37,7 +39,16 @@ class GameFieldAdapter(
         fun bind(item: CellGameField) = binding.run {
 
             itemView.visible(item.isVisible())
+
             infoText.text = item.getTitle()
+
+            val cardSize = (Resources.getSystem()
+                    .displayMetrics.widthPixels / (sqrt(cells.size.toDouble()))).toInt()
+
+            val params: ViewGroup.LayoutParams = itemView.layoutParams
+            params.width = cardSize
+            params.height = cardSize
+            itemView.layoutParams = params
 
             itemView.setOnClickListener {
 
@@ -57,7 +68,8 @@ class GameFieldAdapter(
                     GlobalScope.launch {
                         delay(1000)
                         launch(Dispatchers.Main) {
-                            cells = gameProcess.isCardsEqual(cells)
+                            cells = gameProcess.checkOpenCells(cells)
+                            gameProcess.isGameOver(cells)
                             notifyDataSetChanged()
                         }
                     }

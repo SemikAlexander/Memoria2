@@ -1,4 +1,4 @@
-package com.example.memoria2
+package com.example.memoria2.game
 
 import android.app.Activity
 import android.content.Context

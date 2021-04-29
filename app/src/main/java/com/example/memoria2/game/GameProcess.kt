@@ -1,4 +1,4 @@
-package com.example.memoria2
+package com.example.memoria2.game
 
 import android.content.Context
 
@@ -11,6 +11,8 @@ class GameProcess (
     enum class Status {
         OPEN, CLOSE, DELETE
     }
+
+    var isGameOver = false
 
     fun createGameField(gameArray: ArrayList<CellGameField>): ArrayList<CellGameField> {
         gameArray.clear()
@@ -37,8 +39,7 @@ class GameProcess (
         return CellGameField
     }
 
-    //
-    fun isCardsEqual(CellGameField: ArrayList<CellGameField>): ArrayList<CellGameField> {
+    fun checkOpenCells(CellGameField: ArrayList<CellGameField>): ArrayList<CellGameField> {
         if (CellGameField.indexOfFirst { it.status == Status.OPEN } > -1
                 && CellGameField.indexOfLast { it.status == Status.OPEN } > -1)
         {
@@ -64,6 +65,8 @@ class GameProcess (
         return CellGameField
     }
 
-    fun isGameOver(CellGameField: ArrayList<CellGameField>): Boolean =
-            CellGameField.indexOfFirst { it.status == Status.CLOSE } < 0
+    fun isGameOver(CellGameField: ArrayList<CellGameField>): Boolean {
+        isGameOver = CellGameField.indexOfFirst { it.status == Status.CLOSE } < 0
+        return isGameOver
+    }
 }

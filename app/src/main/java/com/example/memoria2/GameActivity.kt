@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.memoria2.adapters.GameFieldAdapter
 import com.example.memoria2.databinding.ActivityGameBinding
+import com.example.memoria2.game.CellGameField
+import com.example.memoria2.game.GameProcess
 
 
 class GameActivity : AppCompatActivity() {
@@ -51,7 +53,7 @@ class GameActivity : AppCompatActivity() {
             gameField.apply {
                 layoutManager = GridLayoutManager(context, size)
                 adapter = GameFieldAdapter(gameFieldArray, gameProcess) {
-                    if (gameProcess.isGameOver(gameFieldArray)) {
+                    if (gameProcess.isGameOver) {
                         gameField.visibility = View.GONE
                         gameResult.visibility = View.VISIBLE
                     }

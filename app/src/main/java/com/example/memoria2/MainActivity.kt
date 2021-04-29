@@ -8,6 +8,7 @@ import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import com.example.memoria2.databinding.ActivityMainBinding
+import com.example.memoria2.game.startActivity
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
