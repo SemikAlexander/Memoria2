@@ -10,7 +10,6 @@ import com.example.memoria2.adapters.GameFieldAdapter
 import com.example.memoria2.databinding.ActivityGameBinding
 import com.example.memoria2.game.CellGameField
 import com.example.memoria2.game.GameProcess
-import com.example.memoria2.game.toast
 
 
 class GameActivity : AppCompatActivity() {
@@ -22,7 +21,7 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val pref = getSharedPreferences(PrefsKeys.SETTING, Context.MODE_PRIVATE)
-        if (pref.getString(PrefsKeys.MODE, null).toString() == "night")
+        if (pref.getString(PrefsKeys.MODE, null).toString() == PrefsKeys.NIGHT_MODE)
             setTheme(R.style.Theme_Memoria2Night)
         else
             setTheme(R.style.Theme_Memoria2)
@@ -35,13 +34,13 @@ class GameActivity : AppCompatActivity() {
         super.onStart()
 
         binding.apply {
-            size = when (intent.getStringExtra("difficult")) {
-                "easy" -> 4
-                "medium" -> 6
+            size = when (intent.getStringExtra(PrefsKeys.DIFFICULT)) {
+                PrefsKeys.EASY_GAME_MODE -> 4
+                PrefsKeys.MEDIUM_GAME_MODE -> 6
                 else -> 8
             }
 
-            val topicGame = intent.getStringExtra("topic") ?: ""
+            val topicGame = intent.getStringExtra(PrefsKeys.TOPIC) ?: ""
 
             chronometer.base = SystemClock.elapsedRealtime()
             chronometer.start()

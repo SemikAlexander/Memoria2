@@ -20,12 +20,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val pref = getSharedPreferences(PrefsKeys.SETTING, Context.MODE_PRIVATE)
-        if (pref.getString(PrefsKeys.MODE, null).toString() == "night") {
-            appModeTheme = "night"
+        if (pref.getString(PrefsKeys.MODE, null).toString() == PrefsKeys.NIGHT_MODE) {
+            appModeTheme = PrefsKeys.NIGHT_MODE
             setTheme(R.style.Theme_Memoria2Night)
         }
         else{
-            appModeTheme = "day"
+            appModeTheme = PrefsKeys.DAY_MODE
             setTheme(R.style.Theme_Memoria2)
         }
 
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
-            appMode.setImageResource(if (appModeTheme == "day") R.drawable.moon else R.drawable.sun)
+            appMode.setImageResource(if (appModeTheme == PrefsKeys.DAY_MODE) R.drawable.moon else R.drawable.sun)
 
             level = pref.getString(PrefsKeys.LEVEL, null).toString()
             userTopic = pref.getString(PrefsKeys.TOPIC, null).toString()
@@ -53,13 +53,13 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             startGame.setOnClickListener {
                 startActivity<GameActivity> {
-                    putExtra("difficult", level)
+                    putExtra(PrefsKeys.DIFFICULT, level)
                     putExtra(PrefsKeys.TOPIC, userTopic)
                 }
             }
 
             easyButton.setOnClickListener{
-                level = easyButton.tag.toString()
+                level = PrefsKeys.EASY_GAME_MODE
 
                 editor.putString(PrefsKeys.LEVEL, level)
                 editor.apply()
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             football.setOnClickListener{
-                userTopic = football.tag.toString()
+                userTopic = PrefsKeys.FOOTBALL_TOPIC
 
                 editor.putString(PrefsKeys.TOPIC, userTopic)
                 editor.apply()
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             mediumButton.setOnClickListener{
-                level = mediumButton.tag.toString()
+                level = PrefsKeys.MEDIUM_GAME_MODE
 
                 editor.putString(PrefsKeys.LEVEL, level)
                 editor.apply()
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             race.setOnClickListener{
-                userTopic = race.tag.toString()
+                userTopic = PrefsKeys.RACE_TOPIC
 
                 editor.putString(PrefsKeys.TOPIC, userTopic)
                 editor.apply()
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             hardButton.setOnClickListener{
-                level = hardButton.tag.toString()
+                level = PrefsKeys.HARD_GAME_MODE
 
                 editor.putString(PrefsKeys.LEVEL, level)
                 editor.apply()
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             animals.setOnClickListener{
-                userTopic = animals.tag.toString()
+                userTopic = PrefsKeys.ANIMALS_TOPIC
 
                 editor.putString(PrefsKeys.TOPIC, userTopic)
                 editor.apply()
@@ -113,17 +113,17 @@ class MainActivity : AppCompatActivity() {
             }
 
             appMode.setOnClickListener{
-                if (appModeTheme == "day") {
+                if (appModeTheme == PrefsKeys.DAY_MODE) {
                     appMode.setImageResource(R.drawable.moon)
 
-                    appModeTheme = "night"
-                    editor.putString(PrefsKeys.MODE, "night")
+                    appModeTheme = PrefsKeys.NIGHT_MODE
+                    editor.putString(PrefsKeys.MODE, PrefsKeys.NIGHT_MODE)
                 }
                 else {
                     appMode.setImageResource(R.drawable.sun)
 
-                    appModeTheme = "day"
-                    editor.putString(PrefsKeys.MODE, "day")
+                    appModeTheme = PrefsKeys.DAY_MODE
+                    editor.putString(PrefsKeys.MODE, PrefsKeys.DAY_MODE)
                 }
 
                 editor.apply()
@@ -139,9 +139,12 @@ class MainActivity : AppCompatActivity() {
             animals.setBackgroundColor(getColorFromAttr(R.attr.colorSecondary))
 
             when (userTopic) {
-                "football" -> football.setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
-                "race" -> race.setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
-                "animals" -> animals.setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
+                PrefsKeys.FOOTBALL_TOPIC -> football
+                        .setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
+                PrefsKeys.RACE_TOPIC -> race
+                        .setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
+                PrefsKeys.ANIMALS_TOPIC -> animals
+                        .setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
             }
         }
     }
@@ -153,9 +156,12 @@ class MainActivity : AppCompatActivity() {
             hardButton.setBackgroundColor(getColorFromAttr(R.attr.colorSecondary))
 
             when (level) {
-                "easy" -> easyButton.setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
-                "medium" -> mediumButton.setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
-                "hard" -> hardButton.setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
+                PrefsKeys.EASY_GAME_MODE -> easyButton
+                        .setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
+                PrefsKeys.MEDIUM_GAME_MODE -> mediumButton
+                        .setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
+                PrefsKeys.HARD_GAME_MODE -> hardButton
+                        .setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
             }
         }
     }

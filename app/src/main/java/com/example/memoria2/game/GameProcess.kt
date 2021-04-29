@@ -32,13 +32,6 @@ class GameProcess (
         return gameArray
     }
 
-    fun closeCells(CellGameField: ArrayList<CellGameField>): ArrayList<CellGameField> {
-        for (i in 0 until CellGameField.size)
-            CellGameField[i].status = Status.CLOSE
-
-        return CellGameField
-    }
-
     fun checkOpenCells(CellGameField: ArrayList<CellGameField>): ArrayList<CellGameField> {
         if (CellGameField.indexOfFirst { it.status == Status.OPEN } > -1
                 && CellGameField.indexOfLast { it.status == Status.OPEN } > -1)
@@ -56,12 +49,6 @@ class GameProcess (
                 CellGameField[secondImage].status = Status.CLOSE
             }
         }
-        return CellGameField
-    }
-
-    fun openCell(CellGameField: ArrayList<CellGameField>, position: Int): ArrayList<CellGameField> {
-        if (CellGameField[position].status !== Status.DELETE)
-            CellGameField[position].status = Status.OPEN
         return CellGameField
     }
 
