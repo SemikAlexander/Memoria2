@@ -134,22 +134,6 @@
             android:layout_marginRight="@dimen/margin_between_menu"
             app:icon="@drawable/ic_sports_motorsports"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/animals"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:cornerRadius="50dp"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:iconSize="35dp"
-            android:tag="animals"
-            android:backgroundTint="?attr/colorSecondary"
-            android:layout_marginLeft="@dimen/margin_between_menu"
-            app:icon="@drawable/ic_pets"/>
     </LinearLayout>
 
     <ImageButton

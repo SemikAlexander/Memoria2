@@ -1,0 +1,45 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="512dp"
+    android:height="512dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+  <path
+      android:pathData="M256,0l-70,256l70,256c0.004,0 11.382,-13.229 11.382,-13.229C287.457,475.402 316.479,462 347.008,462H422c41.355,0 75,-33.645 75,-75V0H256z"
+      android:fillColor="#FFB037"/>
+  <path
+      android:pathData="M15,0v387c0,41.355 33.645,75 75,75h75c30.528,0 59.551,13.402 79.626,36.771L256,512V0H15z"
+      android:fillColor="#FFD237"/>
+  <path
+      android:pathData="M467,30l-211,0l-70,45l70,45l211,0z"
+      android:fillColor="#D5011D"/>
+  <path
+      android:pathData="M45,30h211v90h-211z"
+      android:fillColor="#FF0021"/>
+  <path
+      android:pathData="M256,150l-60,158.738l60,158.734C280.805,444.764 313.175,432 347.008,432H422c24.813,0 45,-20.187 45,-45V150H256z"
+      android:fillColor="#014059"/>
+  <path
+      android:pathData="M45,150v237c0,24.813 20.187,45 45,45h75c33.83,0 66.199,12.762 91,35.472V150H45z"
+      android:fillColor="#015E82"/>
+  <path
+      android:pathData="M437,60l-181,0l-30,15l30,15l181,0z"
+      android:fillColor="#EFF6F9"/>
+  <path
+      android:pathData="M75,60h181v30h-181z"
+      android:fillColor="#FFFFFF"/>
+  <path
+      android:pathData="M429.5,394.5l-132.5,0l0,-207l90,0l0,117l42.5,0z"
+      android:fillColor="#FFB037"/>
+  <path
+      android:pathData="M327,364.5l72.5,0l0,-30l-42.5,0l0,-117l-30,0z"
+      android:fillColor="#EFF6F9"/>
+  <path
+      android:pathData="M165.5,381.5c-49.902,0 -90.5,-40.598 -90.5,-90.5s40.598,-90.5 90.5,-90.5S256,241.098 256,291S215.402,381.5 165.5,381.5z"
+      android:fillColor="#FFD237"/>
+  <path
+      android:pathData="M165.5,351.5c-33.36,0 -60.5,-27.14 -60.5,-60.5s27.14,-60.5 60.5,-60.5S226,257.64 226,291S198.86,351.5 165.5,351.5z"
+      android:fillColor="#EFF6F9"/>
+  <path
+      android:pathData="M195,328.5l-60,0l0,-30l30,0l0,-15l-30,0l0,-30l60,0z"
+      android:fillColor="#FFD237"/>
+</vector>

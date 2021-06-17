@@ -103,14 +103,14 @@ class MainActivity : AppCompatActivity() {
                 setLevel(level)
             }
 
-            animals.setOnClickListener{
+            /*animals.setOnClickListener{
                 userTopic = PrefsKeys.ANIMALS_TOPIC
 
                 editor.putString(PrefsKeys.TOPIC, userTopic)
                 editor.apply()
 
                 setTopic(userTopic)
-            }
+            }*/
 
             appMode.setOnClickListener{
                 if (appModeTheme == PrefsKeys.DAY_MODE) {
@@ -136,15 +136,15 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             football.setBackgroundColor(getColorFromAttr(R.attr.colorSecondary))
             race.setBackgroundColor(getColorFromAttr(R.attr.colorSecondary))
-            animals.setBackgroundColor(getColorFromAttr(R.attr.colorSecondary))
+            //animals.setBackgroundColor(getColorFromAttr(R.attr.colorSecondary))
 
             when (userTopic) {
                 PrefsKeys.FOOTBALL_TOPIC -> football
                         .setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
                 PrefsKeys.RACE_TOPIC -> race
                         .setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
-                PrefsKeys.ANIMALS_TOPIC -> animals
-                        .setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))
+                /*PrefsKeys.ANIMALS_TOPIC -> animals
+                        .setBackgroundColor(getColorFromAttr(R.attr.colorSecondaryVariant))*/
             }
         }
     }

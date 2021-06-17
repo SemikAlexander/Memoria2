@@ -41,7 +41,7 @@ class GameFieldAdapter(
 
             itemView.visible(item.isVisible())
 
-            infoText.text = item.getTitle()
+            infoText.setImageResource(item.getImage())
 
             val cardSize = (Resources.getSystem()
                     .displayMetrics.widthPixels / (sqrt(cells.size.toDouble()))).toInt()

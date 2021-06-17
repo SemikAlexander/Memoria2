@@ -6,14 +6,15 @@
     android:layout_width="50dp"
     android:layout_height="50dp">
 
-    <TextView
+    <ImageView
         android:id="@+id/info_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:fontFamily="@font/f20610"
         android:textSize="@dimen/medium_text_size"
-        android:text="\?"
+        android:src="@drawable/football0"
+        android:scaleType="centerCrop"
         android:background="?attr/colorSecondaryVariant"/>
 
 </LinearLayout>
